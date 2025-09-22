@@ -273,15 +273,18 @@ public class BookSerivceImplementation implements BookSerivce {
      */
     private void validateSearchInputs(String searchText, Integer publishedYear) {
         validatePublishedYear(publishedYear);
-        if (searchText.trim().length() < 3) {
-            //todo error handling
-            throw new IllegalArgumentException("Search text must be at least 3 characters");
-        }
 
-        if (searchText.length() > 255) {
-            throw new IllegalArgumentException("Search text must be less than 255 characters");
+        if (searchText != null) {
+            String trimmed = searchText.trim();
+            int length = trimmed.length();
+
+            if (length > 0 && length < 3) {
+                throw new IllegalArgumentException("Search text must be at least 3 characters");
+            }
+            if (length > 255) {
+                throw new IllegalArgumentException("Search text must be less than 255 characters");
+            }
         }
-        searchText = searchText.trim();
     }
 
     /**
@@ -317,7 +320,7 @@ public class BookSerivceImplementation implements BookSerivce {
      * @throws InvalidBookDataException if the year is outside the valid range
      */
     private void validatePublishedYear(Integer publishedYear){
-        if(publishedYear < 1450 || publishedYear > Year.now().getValue()) {
+        if(!ObjectUtils.isEmpty(publishedYear) && (publishedYear < 1450 || publishedYear > Year.now().getValue())) {
             throw new InvalidBookDataException(String.valueOf(publishedYear), "invalid year");
         }
     }

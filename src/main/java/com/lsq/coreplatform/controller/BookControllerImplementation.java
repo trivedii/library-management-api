@@ -34,7 +34,7 @@ public class BookControllerImplementation implements BookController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<BookSearchResponseDTO> searchBooks(@RequestParam(defaultValue = "") String searchText,
+    public ResponseEntity<BookSearchResponseDTO> searchBooks(@RequestParam(required = false) String searchText,
                                                              @RequestParam(required = false) Integer publishedYear,
                                                              @RequestParam(defaultValue = "25") @Min(1) @Max(100) Integer limit,
                                                              @RequestParam(defaultValue = "0") @Min(0) Integer offset) {
